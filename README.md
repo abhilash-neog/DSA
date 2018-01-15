@@ -2,6 +2,7 @@
 DSA is a repository of programs written in C, which includes implementation of data structures and algorithms.
 
 #Usage
+
 The files can be runned from an IDE(Eg. CodeBlocks).
 For running on the terminal, the following commands would be useful:
 
