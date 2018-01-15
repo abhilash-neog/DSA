@@ -10,7 +10,7 @@ For running on the terminal, the following commands would be useful:
 
 ->gcc -o exe filename.o
 
-To execute multiole files together(linking):
+To execute multiple files together(linking):
 
 ->gcc -o exe file1.o file2.o
 
