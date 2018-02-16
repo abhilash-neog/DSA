@@ -1,0 +1,3 @@
+Time for loading data:7.342000
+ Time for Sorting:61.153000
+ Stack size:-168
