@@ -1,0 +1,2 @@
+Time for loading data:6.000000
+ Time for Sorting:0.000000
