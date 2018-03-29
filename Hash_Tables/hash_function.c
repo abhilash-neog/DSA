@@ -1,15 +1,18 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include "interface.h"
 
-//char book[20][20];
-int best_base=0;int best_tab=0; int least_col=0;
-int i=0;
+int count;
+int least_col=0;
+int best_base;int best_tab;
+int best_base_index;int best_tab_index;
+int k=0; char** book;
 int hashfunction(char *str, int base, int tablesize){
-	int len = strlen(str);int sum;int mod;
+	int len = strlen(str);int sum =0;int mod=0;
 	for (int i=0;i<len;i++){
 		sum = sum + str[i];
-		sum = sum%base;//especially for large string values
+		//sum = sum%base;//especially for large string values
 	} 
 	mod = sum%base;
 	mod = mod%tablesize;
@@ -17,14 +20,13 @@ int hashfunction(char *str, int base, int tablesize){
 }
 int collision(char** str1,int base, int table){//char [][]str1 shows error!!!
 
-	int leng = i;
-	int count;int temp;
+	int leng = k;
+	int temp;
 	//printf("%d\n", leng);
 	int hash[table];
 	for(int k=0;k<leng;k++){
 		
 		temp = hashfunction(str1[k],base,table);	
-		printf("%d\n",54);
 		hash[temp]++;
 		if(hash[temp]>1){
 			count++;		
@@ -35,52 +37,65 @@ int collision(char** str1,int base, int table){//char [][]str1 shows error!!!
 			count++;		
 			}	
 	}*/
-	printf("Number of collisions: %d", count);
+	//printf("Number of collisions: %d\n", count);
 	return count;
 }
 void updateBest(int col, int base, int tab){
+
 	if(col<least_col){
-		best_base = base;
-		best_tab = tab;
-		least_col = col;	
+		best_base_index = base;
+		best_tab_index = tab;
+		least_col = col;
+		printf("least collision: %d\n",least_col);	
 	}
 }
 char** inputParser(){ //char[][] gives error!maybe doesnt recgnize suh a return type
-	FILE* fp = fopen("test_file","r");
+	FILE* fp = fopen("aliceinwonderland.txt","r");
 	
-	char** book = (char**)malloc(sizeof(char*));
-	while(!feof(fp)){	
-		fscanf(fp,"%s",book[i]);
-		i++;
-		book = (char**)realloc(book,sizeof(char*)*i);
-			
+	book = (char**)malloc(sizeof(char*)*30);
+	int i;
+	int count1=10;
+	for(i=0;i<10;i++){
+	book[i]=(char*)malloc(sizeof(char)*20);}	
+	while(fscanf(fp,"%s",book[k++])!=-1)
+	{
+		if(count1==k+1)
+		{
+			count1+=10;
+			book = (char**)realloc(book,sizeof(char*)*count1);
+			for(i=count1-10;i<count1;i++){
+			book[i]=(char*)malloc(sizeof(char)*20);}
+		}
 	}
-i = i-1; //since i gets incremented an extra time
-for(int m=0;m<i;m++){
-	printf("%s\n",book[m]);
-	}
-printf("valid strings - %d\n",i);
+
+//for(int m=0;m<k-1;m++){
+	printf("AT index 161 - %s\n",book[161]);
+//	}
+printf("valid strings - %d\n",k-1);
 return book;
 }
 void profiler(){
-	int table[] = {50,100,500};
-	int base[] = {89,93,97,1000001,1000003,1000007};
-	char** text = inputParser();
-	printf("%s\n",*text[0]);
-	least_col = collision(text,base[0],table[0]);
+	int table[] = {500,50,100};
+	int base[] = {97,89,93,1000001,1000003,1000007};
+	//char** text = inputParser();
+	//printf("%s\n",*text[0]);
+	least_col = collision(book,base[0],table[0]);
 	int no_col;
 	int l=0;
 	for(int k=0;k<3;k++){
 		for(int i=0;i<6;i++){
-			no_col = collision(text,base[i],table[k]);
-			printf("collisions in  %d is %d", l,no_col);
-			updateBest(no_col,base[i],table[k]);l++;
+			no_col = collision(book,base[i],table[k]);
+			count = 0;
+			printf("collisions in  %d is %d\n", l,no_col);
+			updateBest(no_col,i,k);l++;
 		}	
 	}
-printf("best_baseNum is %d, at index %d\n", base[best_base],best_base);
-printf("best_tabSize is %d, at index %d\n", table[best_tab],best_tab);
+best_base = base[best_base_index];
+best_tab = table[best_tab_index];
+printf("best_baseNum is %d, at index %d\n", base[best_base_index],best_base_index);
+printf("best_tabSize is %d, at index %d\n", table[best_tab_index],best_tab_index);
 }
-int main(){profiler();return 0;}
+//int main(){book = inputParser();profiler();return 0;}
 /*char* token = strtok(str," ");
 		printf("hello\n");
 		while(token!=NULL){
