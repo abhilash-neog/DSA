@@ -16,6 +16,8 @@ int hashfunction(char *str, int base, int tablesize){
 	} 
 	mod = sum%base;
 	mod = mod%tablesize;
+	if(mod<0)
+		return mod-mod+1;
 	return mod;
 }
 int collision(char** str1,int base, int table){//char [][]str1 shows error!!!
@@ -67,11 +69,11 @@ char** inputParser(){ //char[][] gives error!maybe doesnt recgnize suh a return 
 			book[i]=(char*)malloc(sizeof(char)*20);}
 		}
 	}
-
+k=k-1;
 //for(int m=0;m<k-1;m++){
 	printf("AT index 161 - %s\n",book[161]);
 //	}
-printf("valid strings - %d\n",k-1);
+printf("valid strings - %d\n",k);
 return book;
 }
 void profiler(){

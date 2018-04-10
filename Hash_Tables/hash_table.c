@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "interface.h"
+#include<string.h>
 
 int k; char** book;
 Hashtable create(){
@@ -46,20 +47,23 @@ void Insert(Hashtable h, char** str, int index){
 }
 int InsertAll(Hashtable h, char** str){
 	for(int l=0;l<k;l++){
-		printf("index %d\n",l);
+		printf("The string at index %d is %s\n", l,str[l]);
 		Insert(h,str,l);	
 	}
 	return h->insertionCost;
 }
 int Lookup(Hashtable h, char* str){
-	int ind,x;
+	int ind; 
 	int hash = hashfunction(str,best_base,best_tab);
-	for(x=0;x<k;x++){	
-	if(book[x] == str){
-		ind = x;	
-	}
+	printf("Hashvalue of lookup string is %d\n",hash);
+	for(int x=0;x<k;x++){	
+		if(strcmp(book[x],str) == 0){
+			ind = x;
+			printf("Found at index %d taking the last one\n", ind);	
+		}
 	}
 	if(h[hash].link->head==NULL){
+	printf("NULL hai\n");
 	return 0;	
 	}
 	else{
@@ -67,6 +71,7 @@ int Lookup(Hashtable h, char* str){
 	while(temp!=NULL){
 		if(temp->index == ind){
 		h->queryingCost++;
+		printf("Found!!!");
 		return h->queryingCost;
 		}
 		else{ h->queryingCost++;
@@ -82,7 +87,7 @@ int main(){
 	printf("Done creation\n");
 	int total_cost = InsertAll(new,book);
 	printf("Total insertion cost is %d\n", total_cost);
-	int query = Lookup(new,"Adventures");
+	int query = Lookup(new,"email");
 	printf("querying cost is %d\n", query);
 	return 0;
 }
